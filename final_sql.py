@@ -6,9 +6,9 @@ from  tkinter import messagebox
 import datetime
 import pyodbc
 
-connection = '15389135543.qicp.vip,13732'
-name = 'sa'
-pwd = 'admin888'
+connection = '****'
+name = '**'
+pwd = '**'
 
 class SqlServerHelper(object):
     # 需要有mysql的链接
