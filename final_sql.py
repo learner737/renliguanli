@@ -251,12 +251,12 @@ def show_add():
     shuru(leftFrame, "联系电话", phone, 2, 2, 2, 3)
     xiala(leftFrame, "工种", type_list, type, 3, 0, 3, 1)
     shuru(leftFrame, "操作设备号码", machine_id, 3, 2, 3, 3)
-    xiala(leftFrame, "有无操作证", ("是", "否"), caozuo, 4, 0, 4, 1)
+    xiala(leftFrame, "有无操作证", ("无", "有"), caozuo, 4, 0, 4, 1)
     xiala(leftFrame, "执证工种", typedo_list, type_do, 4, 2, 4, 3)
     xiala(leftFrame, "行业类别", typehang_list, type_hang, 5, 0, 5, 1)
     shuru(leftFrame, "操作证号码", do_id, 5, 2, 5, 3)
     shuru(leftFrame, "领证日期", do_date, 6, 0, 6, 1)
-    shuru(leftFrame, "有效期", do_last, 6, 2, 6, 3)
+    shuru(leftFrame, "复审日期", do_last, 6, 2, 6, 3)
     shuru(leftFrame, "体检日期", check_date, 7, 0, 7, 1)
     shuru(leftFrame, "月工资", pay, 7, 2, 7, 3)
     shuru(leftFrame, "宿舍号", room_id, 8, 0, 8, 1)
@@ -330,6 +330,8 @@ def show_add():
         helper = SqlServerHelper()
         insert_sql = 'INSERT INTO info(department, name , idcard, gender, age, phone, type, machine_id, caozuo, type_do, type_hang, do_id, do_date, do_last, check_date, pay, room_id, type_bankcard, bankcard_id, in_time, out_time, out_reson, is_on, address, emergency_name, emergency_phone, relationship, remark, training_bef, training_mid, photo, id_card_front, idcard_back, operation_certificate, date_of_reg, registrant) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
         helper.execute_modify_sql(insert_sql, list)
+
+        messagebox.showinfo('提示', '添加成功')
 
         tk.destroy()
 
@@ -425,6 +427,7 @@ def show(list = []):
 
 
 
+
     global photo
     global id_card_front
     global idcard_back
@@ -463,24 +466,19 @@ def show(list = []):
     def xiala(frame, content, values, v_name, la_row, la_column, xia_row, xia_column):
         label = Label(frame, text=content)
         label.grid(row=la_row, column=la_column)
-        gender = ttk.Combobox(leftFrame, textvariable=v_name)  # #创建下拉菜单
-        gender["value"] = values  # #给下拉菜单设定值
-        number = 0
+        choose = ttk.Combobox(leftFrame, textvariable=v_name)  # #创建下拉菜单
+        choose["value"] = values  # #给下拉菜单设定值
         if v_name:
+            print(v_name.get())
             for i in range(len(values)):
+                print(values[i])
                 if v_name.get() == values[i]:
                     break
-            gender.current(i)
+            choose.current(i)
         else:
-            gender.current(0)
+            choose.current(0)
 
-        def xFunc(event):
-            pass
-            # print(gender.get())  # #获取选中的值方法1
-            # v_name = gender.get()
-
-        gender.bind("<<ComboboxSelected>>", xFunc)  # #给下拉菜单绑定事件
-        gender.grid(row=xia_row, column=xia_column)
+        choose.grid(row=xia_row, column=xia_column)
 
     def resize(w_box, h_box, pil_image):  # 参数是：要适应的窗口宽、高、Image.open后的图片
         w, h = pil_image.size  # 获取图像的原始大小
@@ -572,12 +570,12 @@ def show(list = []):
     shuru(leftFrame, "联系电话", phone, 2, 2, 2, 3)
     xiala(leftFrame, "工种", type_list, type, 3, 0, 3, 1)
     shuru(leftFrame, "操作设备号码", machine_id, 3, 2, 3, 3)
-    xiala(leftFrame, "有无操作证", ("是", "否"), caozuo, 4, 0, 4, 1)
+    xiala(leftFrame, "有无操作证", ("无", "有"), caozuo, 4, 0, 4, 1)
     xiala(leftFrame, "执证工种", typedo_list, type_do, 4, 2, 4, 3)
     xiala(leftFrame, "行业类别", typehang_list, type_hang, 5, 0, 5, 1)
     shuru(leftFrame, "操作证号码", do_id, 5, 2, 5, 3)
     shuru(leftFrame, "领证日期", do_date, 6, 0, 6, 1)
-    shuru(leftFrame, "有效期", do_last, 6, 2, 6, 3)
+    shuru(leftFrame, "复审日期", do_last, 6, 2, 6, 3)
     shuru(leftFrame, "体检日期", check_date, 7, 0, 7, 1)
     shuru(leftFrame, "月工资", pay, 7, 2, 7, 3)
     shuru(leftFrame, "宿舍号", room_id, 8, 0, 8, 1)
@@ -703,6 +701,8 @@ def show(list = []):
         insert_sql = "update info set department = '{}', name = '{}' , idcard = '{}', gender = '{}', age = '{}', phone = '{}', type = '{}', machine_id = '{}', caozuo = '{}', type_do = '{}', type_hang = '{}', do_id = '{}', do_date = '{}', do_last = '{}', check_date = '{}', pay = '{}', room_id = '{}', type_bankcard = '{}', bankcard_id = '{}', in_time = '{}', out_time ='{}', out_reson ='{}', is_on ='{}', address ='{}', emergency_name ='{}', emergency_phone = '{}', relationship = '{}', remark ='{}',  training_bef ='{}', training_mid ='{}', photo ='{}', id_card_front ='{}', idcard_back ='{}', operation_certificate ='{}',date_of_reg = '{}', registrant = '{}'  where id = {}".format(department.get(), name.get() , idcard.get(), gender.get(), age.get(), phone.get(), type.get(), machine_id.get(), caozuo.get(), type_do.get(), type_hang.get(), do_id.get(), do_date.get(), do_last.get(), check_date.get(), pay.get(), room_id.get(), type_bankcard.get(), bankcard_id.get(), in_time.get(), out_time.get(), out_reson.get(), is_on.get(), address.get(), emergency_name.get(), emergency_phone.get(), relationship.get(), remark.get(), training_bef.get(), training_mid.get(), photo, id_card_front, idcard_back, operation_certificate, date_of_reg, usr_name,  id.get())
         helper.modify_sql(insert_sql)
 
+        messagebox.showinfo('提示', '更新成功')
+
         tk.destroy()
     def delete():
         helper = SqlServerHelper()
@@ -750,13 +750,45 @@ def show(list = []):
 
 
 def output():
+    result = open('data.xls', 'w', encoding='gbk')
+    result.write('序号\t部门\t姓名\t身份证号\t性别\t年龄\t联系电话\t工种\t操作设备号码\t有无操作证\t执业工种\t行业类别\t操作证号码\t领证日期\t有效期\t体检日期\t月工资\t宿舍号\t开户行\t银行卡号\t入职时间\t离职时间\t离职原因\t是否在岗\t家庭住址\t紧急联系人姓名\t紧急联系人电话\t与本人关系\t备注\t岗前培训时间\t岗中培训时间\t本人照片\t身份证正面\t身份证反面\t操作证照片\t登记日期\t登记人\n')
+    for m in range(len(value)):
+        for n in range(len(value[m])):
+            result.write(str(value[m][n]))
+            result.write('\t')
+        result.write('\n')
+    result.close()
+    messagebox.showinfo('提示', '导出成功')
 
-    pass
 
 
-def refresh():
-    mainface(type_user)
 
+def info():
+    win = Tk()
+    win.title('人员信息')
+    win.geometry('800x500')
+
+    helper = SqlServerHelper()
+
+    if "施工" in type_user:
+        sql_all = "select count(*) from info where department='{}'".format(type_user)
+        all_num = helper.get_info(sql_all)
+        sql_on = "select count(*) from info where is_on = '是' and department='{}'".format(type_user)
+        all_on = helper.get_info(sql_on)
+        all_off = int(all_num[0][0]) - int(all_on[0][0])
+    else:
+        sql_all = 'select count(*) from info'
+        all_num = helper.get_info(sql_all)
+        sql_on = "select count(*) from info where is_on = '是'"
+        all_on = helper.get_info(sql_on)
+        all_off = int(all_num[0][0]) - int(all_on[0][0])
+
+    Label(win, text='总人数：').place(x=100, y=100)
+    Label(win, text='在职人数：').place(x=100, y=140)
+    Label(win, text='离职人数：').place(x=100, y=180)
+    Label(win, text=all_num[0][0]).place(x=150, y=100)
+    Label(win, text=all_on[0][0]).place(x=150, y=140)
+    Label(win, text=all_off).place(x=150, y=180)
 
 
 def mainface(type_user):
@@ -776,6 +808,9 @@ def mainface(type_user):
     # 标签出现在窗口的位置
     label.pack(side=TOP,fill="x")
 
+    def refresh():
+        root.destroy()
+        mainface(type_user)
 
 
 
@@ -883,6 +918,7 @@ def mainface(type_user):
     if "施工" in type_user:
         helper = SqlServerHelper()
         sql = "select * from info where department = '{}'".format(type_user)
+        global value
         value = helper.get_info(sql)
         for i in range(len(value)):
             value[i] = tuple(value[i])
@@ -896,6 +932,10 @@ def mainface(type_user):
 
         treeView.bind('<<TreeviewSelect>>', showTree)
         treeView.pack()
+
+
+
+
     else:
         helper = SqlServerHelper()
         tree = ttk.Treeview(root, show="tree")
@@ -916,7 +956,8 @@ def mainface(type_user):
                 item_text = tree.item(item, "text")
                 if item_text != "施工队":
                     sql = "select * from info where department = '{}'".format(item_text)
-                    value = helper.get_info(sql)
+                    # global value
+                    # value = helper.get_info(sql)
                     for i in range(len(value)):
                         value[i] = tuple(value[i])
                         treeView.insert('', i, values=value[i])
@@ -940,6 +981,7 @@ def mainface(type_user):
 
         sql = 'select * from info '
         value = helper.get_info(sql)
+
         for i in range(len(value)):
             value[i] = tuple(value[i])
             treeView.insert('', i, values=value[i])
@@ -953,11 +995,15 @@ def mainface(type_user):
         treeView.bind('<<TreeviewSelect>>', showTree)
         treeView.pack()
 
+
+
+
     # 创建一个顶级菜单
     menubar = Menu(root)
     menubar.add_command(label="新建", command=show_add)
     menubar.add_command(label="导出", command=output)
     menubar.add_command(label="刷新", command=refresh)
+    menubar.add_command(label="人员信息", command=info)
     menubar.add_command(label="退出", command=root.quit)
 
     # 显示菜单
@@ -1032,7 +1078,7 @@ def main():
         value = helper.get_info(sql)
         for item in value:
             if usr_name in item and usr_pwd in item:
-                return item[3]
+                return item[2]
         return False
 
     # 登陆
